@@ -37,20 +37,30 @@ class _MainScreenState extends State<MainScreen> {
             },
             itemBuilder: (context) => [
               const PopupMenuItem<String>(
-                  value: 'https://www.google.com', child: Text('구글')),
+                  value: 'https://open.spotify.com/', child: Text('Spotify')),
               const PopupMenuItem<String>(
-                  value: 'https://www.daum.net', child: Text('다음')),
+                  value: 'https://music.apple.com/kr/browse', child: Text('AppleMusic')),
               const PopupMenuItem<String>(
-                  value: 'https://realmania.net', child: Text('레알매니아')),
+                  value: 'https://www.melon.com', child: Text('멜론')),
             ],
           ),
         ],
       ),
-      body: WebView(
-        initialUrl: 'https://pub.dev',
-        onWebViewCreated: (controller) {
-          _webViewController = controller;
+      body: WillPopScope(
+        onWillPop: () async {
+            if(await _webViewController.canGoBack()){
+              await _webViewController.goBack();
+              return false;
+            }
+          return true;
         },
+        child: WebView(
+          initialUrl: 'https://pub.dev',
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (controller) {
+            _webViewController = controller;
+          },
+        ),
       ),
     );
   }
