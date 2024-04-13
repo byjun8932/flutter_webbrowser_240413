@@ -21,10 +21,30 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:
+            Theme.of(context).colorScheme.tertiaryContainer.tone(85),
         title: const Text('나만의 웹브라우저'),
-        backgroundColor: Theme.of(context).colorScheme.tertiaryContainer.tone(85),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.add),
+          ),
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              print(value);
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem<String>(
+                  value: 'https://www.google.com', child: Text('구글')),
+              const PopupMenuItem<String>(
+                  value: 'https://www.daum.net', child: Text('다음')),
+              const PopupMenuItem<String>(
+                  value: 'https://www.kakao.com', child: Text('카카오')),
+            ],
+          ),
+        ],
       ),
-      body: WebView(
+      body: const WebView(
         initialUrl: 'https://www.pub.dev',
       ),
     );
