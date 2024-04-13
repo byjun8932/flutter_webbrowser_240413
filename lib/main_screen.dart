@@ -11,6 +11,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  late WebViewController _webViewController;
+
   @override
   void initState() {
     super.initState();
@@ -31,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           PopupMenuButton<String>(
             onSelected: (value) {
-              print(value);
+              _webViewController.loadUrl(value);
             },
             itemBuilder: (context) => [
               const PopupMenuItem<String>(
@@ -39,13 +41,16 @@ class _MainScreenState extends State<MainScreen> {
               const PopupMenuItem<String>(
                   value: 'https://www.daum.net', child: Text('다음')),
               const PopupMenuItem<String>(
-                  value: 'https://www.kakao.com', child: Text('카카오')),
+                  value: 'https://realmania.net', child: Text('레알매니아')),
             ],
           ),
         ],
       ),
-      body: const WebView(
-        initialUrl: 'https://www.pub.dev',
+      body: WebView(
+        initialUrl: 'https://pub.dev',
+        onWebViewCreated: (controller) {
+          _webViewController = controller;
+        },
       ),
     );
   }
